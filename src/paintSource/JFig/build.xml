@@ -1,0 +1,216 @@
+<project name="JFigBuild" basedir="." default="all">
+	<target name="setDirs" unless="setDirs" description="setup the properites for dirs.">
+		<tstamp />
+		<property name = "srcDir" value="./src" />
+		<property name = "localJars" value="./jars" />
+		<property name = "antWorkSpace" value="./antWorkSpace" />
+		<property name = "build" value="${antWorkSpace}/classes" />
+		<property name = "data4Tests" value="${antWorkSpace}/data4Tests" />
+		<property name = "output4Tests" value="${antWorkSpace}/output4Testss" />
+		<property name = "reports" value="${antWorkSpace}/reports" />
+		<property name = "lib" value="${antWorkSpace}/lib" />
+		<property name = "distDirZip" value="${antWorkSpace}/jFig0.0" />
+		<property name = "distDir" value="${distDirZip}/jFig" />
+		<property name = "jFigJar" value="${distDir}/jFig.jar" />
+		<property name = "setProps" value="true" />
+	</target>
+	
+
+	<target name="clean" depends="setDirs" description="clean up the output directories.">
+		<delete dir="${antWorkSpace}" />
+	</target>
+
+	<target name="prepare" depends="clean" description="prepare the output directories.">
+		<mkdir dir="${antWorkSpace}" />
+		<mkdir dir="${build}" />
+		<mkdir dir="${data4Tests}" />
+		<mkdir dir="${output4Tests}" />
+		<mkdir dir="${reports}" />
+		<mkdir dir="${lib}" />
+		<mkdir dir="${distDirZip}" />
+		<mkdir dir="${distDir}" />
+		<mkdir dir="${distDir}/qVerif" />
+		<copy todir="${antWorkSpace}"  file="./MANIFEST.MF" />
+
+	</target>
+
+	<target name="compilepath" depends="prepare" description="compile path classpath.">
+		<path id="c.classpath">
+			<pathelement path="${localJars}/epsgraphics-1.2.jar" />
+			<pathelement path="${localJars}/hamcrest-core-1.2.jar" />
+			<pathelement path="${localJars}/hamcrest-core-SNAPSHOT.jar" />
+			<pathelement path="${localJars}/hamcrest-library-1.2.jar" />
+			<pathelement path="${localJars}/hamcrest-librarySNAPSHOT.jar" />
+			<pathelement path="${localJars}/junit-dep-4.6.jar" />
+			<pathelement path="${localJars}/junit.jar" />
+			<pathelement path="${localJars}/windowlicker-core-DEV.jar" />
+			<pathelement path="${localJars}/windowlicker-swing-DEV.jar" />
+			<pathelement path="${build}"/>
+		</path>
+	</target>
+
+	<target name="compile" depends="compilepath" description="compile the java sources.">
+		<javac includeantruntime="false" srcdir="${srcDir}" destdir="${build}" source="1.6">
+			<compilerarg value="-Xlint" />
+			<classpath refid="c.classpath" />
+		</javac>
+	</target>
+
+	<target name="addToClasses" depends="prepare,compile" description="add files to classes.">
+		<!-- <copy todir="${build}/eLib/exit/txt/data">
+			<fileset dir="${srcDir}/eLib/exit/txt/data">
+				<exclude name="**/svn" />
+			</fileset>
+		</copy> -->
+		<copy todir="${build}/ca/uds/jfig/application/images">
+			<fileset dir="${srcDir}/ca/uds/jfig/application/images">
+				<exclude name="**/svn" />
+			</fileset>
+		</copy>
+		<!--<copy todir="${build}/dInterface/timetables">
+			<fileset dir="${srcDir}/dInterface/timetables">
+				<exclude name="**/svn" />
+			</fileset>
+		</copy> -->
+	</target>
+
+	<target name="testpath" depends="prepare,compile,addToClasses " description="test path classpath.">
+		<path id="t.classpath">
+			<pathelement path="${build}/JFigTestCase.class" />
+			<pathelement path="${localJars}/epsgraphics-1.2.jar" />
+			<pathelement path="${localJars}/hamcrest-core-1.2.jar" />
+			<pathelement path="${localJars}/hamcrest-core-SNAPSHOT.jar" />
+			<pathelement path="${localJars}/hamcrest-library-1.2.jar" />
+			<pathelement path="${localJars}/hamcrest-librarySNAPSHOT.jar" />
+			<pathelement path="${localJars}/junit-dep-4.6.jar" />
+			<pathelement path="${localJars}/junit.jar" />
+			<pathelement path="${localJars}/windowlicker-core-DEV.jar" />
+			<pathelement path="${localJars}/windowlicker-swing-DEV.jar" />
+			
+			<!--pathelement path="${localJars}/junit.jar" />
+			<pathelement path="${localJars}/log4j-1.2.8.jar" />
+			<pathelement path="${localJars}/xml-api.jar" />
+			<pathelement path="${localJars}/jdom.jar" />
+			<pathelement path="${localJars}/sjsxp.jar" /> -->
+			<pathelement path="${build}" />
+		</path>
+	</target>
+
+	<target name="unitTest" depends="compile, testpath" description="test the java sources">
+		<junit printsummary="true" haltonfailure="true">
+			 <sysproperty key="com.objogate.wl.keyboard" value="US"/>
+			<classpath refid="t.classpath" />
+			<formatter type="brief" usefile="false" />
+			<formatter type="xml" />
+<!--			<batchtest todir="${reports}">
+				<fileset dir="${build}" includes="dmains/*Test.class" />
+			</batchtest>
+-->
+			<batchtest fork="yes" todir="${antWorkSpace}/reports/">
+						<fileset dir="src">
+							<include name="**/jFigMain.java"/>
+							<include name="**/*Test*.java"/>
+						</fileset>
+			</batchtest>
+			</junit>
+<!--		<junitreport todir="${reports}">
+			<fileset dir="${reports}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${reports}" />
+		</junitreport>
+		-->
+	</target>
+	
+	
+	
+<!--	<junit printsummary="yes" haltonfailure="yes">
+		<formatter type="xml"/>
+		<classpath refid="path.test"/>
+		<batchtest fork="yes" todir="${dir.report.unittests.xml}">
+			<fileset dir="src">
+				<include name="**/*Test*.java"/>
+			</fileset>
+		</batchtest>
+	</junit>
+-->
+
+	<target name="unjar" depends="unitTest" description="execute the java sources.">
+		<java classname="ca.sixs.jFig.mains.jFigMain">
+			<classpath refid="c.classpath" />
+		</java>
+	</target>
+				
+	<target name="unjar1" depends="unitTest">
+		<unjar src="${localJars}/epsgraphics-1.2.jar" dest="${build}" />
+	</target>
+	<target name="unjar2" depends="unjar1">
+		<unjar src="${localJars}/hamcrest-core-1.2.jar" dest="${build}" />
+	</target>
+	<target name="unjar3" depends="unjar2">
+		<unjar src="${localJars}/hamcrest-core-SNAPSHOT.jar" dest="${build}" />
+	</target>
+	<target name="unjar4" depends="unjar3">
+		<unjar src="${localJars}/hamcrest-library-1.2.jar" dest="${build}" />
+	</target>
+	<target name="unjar5" depends="unjar4">
+		<unjar src="${localJars}/hamcrest-librarySNAPSHOT.jar" dest="${build}" />
+	</target> 
+	<target name="unjar6" depends="unjar5">
+		<unjar src="${localJars}/junit-dep-4.6.jar" dest="${build}" />
+	</target> 
+	<target name="unjar7" depends="unjar6">
+		<unjar src="${localJars}/junit.jar" dest="${build}" />
+	</target> 
+	<target name="unjar8" depends="unjar7">
+			<unjar src="${localJars}/windowlicker-core-DEV.jar"  dest="${build}" />
+		</target> 
+	<target name="unjar9" depends="unjar8">
+			<unjar src="${localJars}/windowlicker-swing-DEV.jar" dest="${build}" />
+	</target> 
+	
+
+	<target name="manifest" depends="unjar2" description="make the manifest">
+		<manifest file="./MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<attribute name="Built-On" value="${timestamp}" />
+			<attribute name="Main-Class" value="ca.uds.jfig.application.Application" />
+		</manifest>
+	</target>
+
+
+
+	<target name="package" depends="manifest">
+		<!--copy todir="${distDir}/pref">
+			<fileset dir="${srcDir}/pref">
+				<exclude name="**/svn" />
+			</fileset>
+		</copy>
+		<copy todir="${distDir}/trace">
+			<fileset dir="${trace}">
+				<exclude name="**/svn" />
+			</fileset>
+		</copy -->
+		<jar jarfile="${distDir}/jFig.jar" index="true" manifest="./MANIFEST.MF">
+			<fileset dir="${build}" />
+		</jar>
+	</target>
+
+	 <target name="completepackage" depends="package">
+	 	<!--<copy file="${origDist}/jFig.bat" todir="${distDir}" /> -->
+	</target>
+
+	<!-- performs the jar signature -->
+	<target name="signjar" depends="zip" description="performs the jar signature">
+		<signjar jar="${jFig.jar}" keystore="$./sixsStore" signedjar="${distDir}/sJFig.jar" alias="signer" keypass="jFig" storepass="JFig" />
+	</target>
+
+	<!-- performs zipping -->
+	<target name="zip" depends="completepackage" description="performs zipping">
+		<zip basedir="${distDirZip}" destfile="${antWorkSpace}/JFig.zip" />
+	</target>
+
+	<!-- performs all targets -->
+	<target name="all" depends="prepare, compile, unitTest, package, zip" description="performs all targets">
+	</target>
+</project>
