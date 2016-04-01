@@ -21,14 +21,19 @@ public class Fenetre extends JFrame {
 		
 		toolboxContainer.setLayout(new BorderLayout(0, 0));
 		
-		/* centeredToolbox sert (trivialement) à centrer les objets dans le panel du haut de l'interface */
+		/* centeredToolbox sert (trivialement) ï¿½ centrer les objets dans les panels du haut de l'interface */
 		JPanel centeredToolbox = new JPanel();
+		centeredToolbox.setLayout(new BorderLayout(0, 0));
 		toolboxContainer.add(centeredToolbox);
 		
-		/* fileButtonsPanel contient les opérations sur les fichiers : new, open et save */
+		/* topToolbox contient les outils relatifs au fichier de dessin et Ã  son contenu */
+		JPanel topToolbox = new JPanel();
+		centeredToolbox.add(topToolbox, BorderLayout.NORTH);
+		
+		/* fileButtonsPanel contient les opï¿½rations sur les fichiers : new, open et save */
 		JPanel fileButtonsPanel = new JPanel();
 		fileButtonsPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		centeredToolbox.add(fileButtonsPanel);
+		topToolbox.add(fileButtonsPanel);
 		
 		JButton btnNew = new JButton("New");
 		fileButtonsPanel.add(btnNew);
@@ -39,10 +44,44 @@ public class Fenetre extends JFrame {
 		JButton btnSave = new JButton("Save");
 		fileButtonsPanel.add(btnSave);
 		
-		/* drawPanel contient les opérations de dessin : dessin, taille du trait, gomme, ligne, forme, texte, couleur */
+		/* historyPanel contient les modifications d'historique : undo et redo */
+		JPanel historyPanel = new JPanel();
+		historyPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		topToolbox.add(historyPanel);
+
+		JButton btnUndo = new JButton("Undo");
+		historyPanel.add(btnUndo);
+
+		JButton btnRedo = new JButton("Redo");
+		historyPanel.add(btnRedo);
+		
+		/* selectionPanel contient les opï¿½rations sur les dessins : sï¿½lection, couper, copier, coller */
+		JPanel selectionPanel = new JPanel();
+		selectionPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		topToolbox.add(selectionPanel);
+		
+		JButton btnSelect = new JButton("Select");
+		selectionPanel.add(btnSelect);
+		
+		JButton btnCut = new JButton("Cut");
+		selectionPanel.add(btnCut);
+		
+		JButton btnCopy = new JButton("Copy");
+		selectionPanel.add(btnCopy);
+		
+		JButton btnPaste = new JButton("Paste");
+		selectionPanel.add(btnPaste);
+		
+		JPanel drawZonePanel = new JPanel();
+		drawZonePanel.setBackground(Color.WHITE);
+		getContentPane().add(drawZonePanel, BorderLayout.CENTER);
+
+		/* drawPanel contient les opï¿½rations de dessin : dessin, taille du trait, gomme, ligne, forme, texte, couleur */
+		JPanel borderDrawPanel = new JPanel();
 		JPanel drawPanel = new JPanel();
+		borderDrawPanel.add(drawPanel);
 		drawPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		centeredToolbox.add(drawPanel);
+		centeredToolbox.add(borderDrawPanel, BorderLayout.SOUTH);
 		
 		String[] tools = { "Pencil", "Color Picker", "Filler" };
 		JComboBox comboBox = new JComboBox(tools);
@@ -78,29 +117,12 @@ public class Fenetre extends JFrame {
 		JButton btnShape = new JButton("Shape");
 		drawPanel.add(btnShape);
 		
+		JButton btnVector = new JButton("Vector");
+		drawPanel.add(btnVector);
+		
 		JButton btnText = new JButton("Text");
 		drawPanel.add(btnText);
 		
-		/* selectionPanel contient les opérations sur les dessins : sélection, couper, copier, coller */
-		JPanel selectionPanel = new JPanel();
-		selectionPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		centeredToolbox.add(selectionPanel);
-		
-		JButton btnSelect = new JButton("Select");
-		selectionPanel.add(btnSelect);
-		
-		JButton btnCut = new JButton("Cut");
-		selectionPanel.add(btnCut);
-		
-		JButton btnCopy = new JButton("Copy");
-		selectionPanel.add(btnCopy);
-		
-		JButton btnPaste = new JButton("Paste");
-		selectionPanel.add(btnPaste);
-		
-		JPanel drawZonePanel = new JPanel();
-		drawZonePanel.setBackground(Color.WHITE);
-		getContentPane().add(drawZonePanel, BorderLayout.CENTER);
 	}
 
 }
