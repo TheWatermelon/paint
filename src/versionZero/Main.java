@@ -1,7 +1,10 @@
 package versionZero;
 
+import versionZero.vue.Fenetre;
+
 public class Main {
 	public static void main(String[] args) {
-		System.out.println("Hello World");
+		Fenetre f = new Fenetre("BitchPaint");
+		f.setVisible(true);
 	}
 }
