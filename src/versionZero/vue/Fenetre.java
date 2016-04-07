@@ -35,13 +35,14 @@ public class Fenetre extends JFrame {
 		fileButtonsPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		topToolbox.add(fileButtonsPanel);
 		
-		JButton btnNew = new JButton("New");
+		JButton btnNew = new JButton(new ImageIcon("icons/new_file_icon24.png"));
+		btnNew.setOpaque(false);
 		fileButtonsPanel.add(btnNew);
 		
-		JButton btnOpen = new JButton("Open");
+		JButton btnOpen = new JButton(new ImageIcon("icons/open_file_icon24.png"));
 		fileButtonsPanel.add(btnOpen);
 		
-		JButton btnSave = new JButton("Save");
+		JButton btnSave = new JButton(new ImageIcon("icons/save_file_icon24.png"));
 		fileButtonsPanel.add(btnSave);
 		
 		/* historyPanel contient les modifications d'historique : undo et redo */
@@ -49,10 +50,10 @@ public class Fenetre extends JFrame {
 		historyPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		topToolbox.add(historyPanel);
 
-		JButton btnUndo = new JButton("Undo");
+		JButton btnUndo = new JButton(new ImageIcon("icons/undo_icon24.png"));
 		historyPanel.add(btnUndo);
 
-		JButton btnRedo = new JButton("Redo");
+		JButton btnRedo = new JButton(new ImageIcon("icons/redo_icon24.png"));
 		historyPanel.add(btnRedo);
 		
 		/* selectionPanel contient les op�rations sur les dessins : s�lection, couper, copier, coller */
@@ -60,16 +61,16 @@ public class Fenetre extends JFrame {
 		selectionPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		topToolbox.add(selectionPanel);
 		
-		JButton btnSelect = new JButton("Select");
+		JButton btnSelect = new JButton(new ImageIcon("icons/selection_icon24.png"));
 		selectionPanel.add(btnSelect);
 		
-		JButton btnCut = new JButton("Cut");
+		JButton btnCut = new JButton(new ImageIcon("icons/cut_icon24.png"));
 		selectionPanel.add(btnCut);
 		
-		JButton btnCopy = new JButton("Copy");
+		JButton btnCopy = new JButton(new ImageIcon("icons/copy_icon24.png"));
 		selectionPanel.add(btnCopy);
 		
-		JButton btnPaste = new JButton("Paste");
+		JButton btnPaste = new JButton(new ImageIcon("icons/paste_icon24.png"));
 		selectionPanel.add(btnPaste);
 		
 		JPanel drawZonePanel = new JPanel();
@@ -83,7 +84,7 @@ public class Fenetre extends JFrame {
 		drawPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		centeredToolbox.add(borderDrawPanel, BorderLayout.SOUTH);
 		
-		String[] tools = { "Pencil", "Color Picker", "Filler" };
+		String[] tools = { "Pencil", "Color Picker", "Filler", "Rectangle", "Oval", "Triangle" };
 		JComboBox comboBox = new JComboBox(tools);
 		drawPanel.add(comboBox);
 		
@@ -102,25 +103,26 @@ public class Fenetre extends JFrame {
 		sizePencilPanel.add(buttonMinus, BorderLayout.WEST);
 		
 		JTextPane lineSize = new JTextPane();
+		lineSize.setEditable(false);
 		sizePencilPanel.add(lineSize, BorderLayout.CENTER);
 		lineSize.setText("1");
 		
 		JButton buttonPlus = new JButton("+");
 		sizePencilPanel.add(buttonPlus, BorderLayout.EAST);
 		
-		JButton btnEraser = new JButton("Erase");
+		JButton btnEraser = new JButton(new ImageIcon("icons/eraser_icon24.png"));
 		drawPanel.add(btnEraser);
 		
-		JButton btnLine = new JButton("Line");
+		JButton btnLine = new JButton(new ImageIcon("icons/line_icon24.png"));
 		drawPanel.add(btnLine);
 		
-		JButton btnShape = new JButton("Shape");
+		JButton btnShape = new JButton(new ImageIcon("icons/shape_icon24.png"));
 		drawPanel.add(btnShape);
 		
-		JButton btnVector = new JButton("Vector");
+		JButton btnVector = new JButton(new ImageIcon("icons/vector_icon24.png"));
 		drawPanel.add(btnVector);
 		
-		JButton btnText = new JButton("Text");
+		JButton btnText = new JButton(new ImageIcon("icons/text_icon24.png"));
 		drawPanel.add(btnText);
 		
 	}
