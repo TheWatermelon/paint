@@ -73,7 +73,7 @@ public class Fenetre extends JFrame {
 		JButton btnPaste = new JButton(new ImageIcon("icons/paste_icon24.png"));
 		selectionPanel.add(btnPaste);
 		
-		JPanel drawZonePanel = new JPanel();
+		JPanel drawZonePanel = new DrawArea();
 		drawZonePanel.setBackground(Color.WHITE);
 		getContentPane().add(drawZonePanel, BorderLayout.CENTER);
 
