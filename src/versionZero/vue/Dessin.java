@@ -46,87 +46,31 @@ class Dessin extends JComponent{
 				//est la ligne se fait peindre et les anciens x,y deviennent les nouveau
 			}
 
+			//Déssin
 			public void paintComponent(Graphics g){
 				if(image == null){
 					image = createImage(getSize().width, getSize().height);
 					toile = (Graphics2D)image.getGraphics();
 					clear();
-
 				}
 				g.drawImage(image, 0, 0, null);
 			}
-			//c'est le cadre
-			//si il est vide il cree une page vide
-			//de la taille de la fenetre
-			//netoyer
-			//il dessine le carde
 
-
+			//Efface tout ce qui a dans le canvas
 			public void clear(){
 				toile.setPaint(Color.white);
 				toile.fillRect(0, 0, getSize().width, getSize().height);
 				toile.setPaint(Color.black);
 				repaint();
 			}
-			//fonction clear
-			//met les couleur en blanc
-			//rempli la fentetre en blanc
-			//met la couleur actuelle en noir
-			public void red(){
-				toile.setPaint(Color.red);
-				repaint();
-			}
-			//rouge
 			
-			public void white(){
-				toile.setPaint(Color.white);
+			//Change la couleur du pinceau
+			public void changePencilColor(Color couleur){
+				toile.setPaint(couleur);
 				repaint();
 			}
-			//blanc
 			
-			public void orange(){
-				toile.setPaint(Color.orange);
-				repaint();
-			}
-			//orange
 			
-			public void black(){
-				toile.setPaint(Color.black);
-				repaint();
-			}
-			//noir
-			public void magenta(){
-				toile.setPaint(Color.magenta);
-				repaint();
-			}
-			//magenta 
-			public void blue(){
-				toile.setPaint(Color.blue);
-				repaint();
-			}
-			//bleu
-			public void green(){
-				toile.setPaint(Color.green);
-				repaint();
-			}
-			//vert
-			
-			public void yellow(){
-				toile.setPaint(Color.yellow);
-				repaint();
-			}
-			//jaune
-			public void gray(){
-				toile.setPaint(Color.gray);
-				repaint();
-			}
-			//gris
-			public void cyan(){
-				toile.setPaint(Color.cyan);
-				repaint();
-			}
-			//bleu ciel
-
 		}
 
 	

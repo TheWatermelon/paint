@@ -3,13 +3,17 @@ package versionZero.vue;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 
 public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
-
+	private Color[] choixCouleurs = {Color.black, Color.white, Color.blue, Color.yellow, Color.magenta, Color.red,
+		Color.green, Color.orange, Color.gray, Color.cyan};
+	
 	public Fenetre(String name) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1280,720);
@@ -120,26 +124,32 @@ public class Fenetre extends JFrame {
 		flowLayout.setVgap(10);
 		flowLayout.setHgap(10);
 		drawPanel.add(colorIndicator);
-		colorIndicator.setBackground(Color.BLACK);
-		
-		Icon iconB = new ImageIcon("icons/blue.png");
-		Icon iconY = new ImageIcon("icons/yellow.png");
-		Icon iconM = new ImageIcon("icons/magenta.png");
-		Icon iconR = new ImageIcon("icons/red.png");
-		Icon iconBl = new ImageIcon("icons/black.png");
-		Icon iconG = new ImageIcon("icons/green.jpg");
-		Icon iconO = new ImageIcon("icons/orange.png");
-		Icon iconW = new ImageIcon("icons/white.png");
-		Icon iconGR = new ImageIcon("icons/gray.jpg");
-		Icon iconC = new ImageIcon("icons/cyan.jpg");
+		colorIndicator.setBackground(Color.BLACK);	
 	
-	
-		fileButtonsPanelColors.setPreferredSize(new Dimension(70, 200));
+		fileButtonsPanelColors.setPreferredSize(new Dimension(70, 170));
 		fileButtonsPanelColors.setMinimumSize(new Dimension(70, 200));
 		fileButtonsPanelColors.setMaximumSize(new Dimension(70, 200));
 		//la taille du panel
 		
+		
+		/*
+		 * Ajout des couleurs dans la zone de choix de couleur
+		 */
+		for(Color couleur : choixCouleurs){
+			JButton button = new JButton();
+			button.setBackground(couleur);
+			button.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					drawZonePanel.changePencilColor(couleur);
+					colorIndicator.setBackground(couleur);
+				}
+			});
+			button.setPreferredSize(new Dimension(20, 20));
+			fileButtonsPanelColors.add(button);
+		}
+		
 		JButton clearButton = new JButton("Clear");
+		
 		//Botton clear appel clear
 		clearButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -148,128 +158,8 @@ public class Fenetre extends JFrame {
 			}
 		});
 		
-		
-		JButton redButton = new JButton(iconR);
-		//Botton rouge
-		redButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.red();
-				colorIndicator.setBackground(Color.red);
-			}
-
-		});
-		
-		JButton orangeButton = new JButton(iconO);
-		//Botton orange
-		orangeButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.orange();
-				colorIndicator.setBackground(Color.orange);
-			}
-
-		});
-		
-		
-		JButton whiteButton = new JButton(iconW);
-		//Botton blanc
-		whiteButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.white();
-				colorIndicator.setBackground(Color.white);
-			}
-
-		});
-		
-		
-		JButton blackButton = new JButton(iconBl);
-		//Botton noir
-		blackButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.black();
-				colorIndicator.setBackground(Color.BLACK);
-			}
-		});
-		
-		JButton yellowButton = new JButton(iconY);
-		//Botton jaune
-		yellowButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.yellow();
-				colorIndicator.setBackground(Color.yellow);
-			}
-		});
-		
-		JButton magentaButton = new JButton(iconM);
-		//botton magenta
-		magentaButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.magenta();
-				colorIndicator.setBackground(Color.magenta);
-			}
-		});
-		
-		JButton blueButton = new JButton(iconB);
-		//botton blue
-		blueButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.blue();
-				colorIndicator.setBackground(Color.blue);
-			}
-		});
-		
-		JButton greenButton = new JButton(iconG);
-		//Botton vert
-		greenButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.green();
-				colorIndicator.setBackground(Color.green);
-			}
-		});
-		
-		JButton grayButton = new JButton(iconGR);
-		//Botton gris
-		grayButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.gray();
-				colorIndicator.setBackground(Color.gray);
-			}
-		});
-		
-		JButton cyanButton = new JButton(iconC);
-		//Botton bleu ciel
-		cyanButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.cyan();
-				colorIndicator.setBackground(Color.cyan);
-			}
-		});
-		
-		blackButton.setPreferredSize(new Dimension(20, 20));
-		magentaButton.setPreferredSize(new Dimension(20, 20));
-		redButton.setPreferredSize(new Dimension(20, 20));
-		blueButton.setPreferredSize(new Dimension(20, 20));
-		greenButton.setPreferredSize(new Dimension(20,20));
-		yellowButton.setPreferredSize(new Dimension(20,20));
-		orangeButton.setPreferredSize(new Dimension(20,20));
-		whiteButton.setPreferredSize(new Dimension(20,20));
-		grayButton.setPreferredSize(new Dimension(20,20));
-		cyanButton.setPreferredSize(new Dimension(20,20));
-		
-		//la taille des cases des couleur
-		fileButtonsPanelColors.add(whiteButton);
-		fileButtonsPanelColors.add(blackButton);
-		fileButtonsPanelColors.add(grayButton);
-		fileButtonsPanelColors.add(greenButton);
-		fileButtonsPanelColors.add(blueButton);
-		fileButtonsPanelColors.add(magentaButton);
-		fileButtonsPanelColors.add(redButton);
-		fileButtonsPanelColors.add(yellowButton);
-		fileButtonsPanelColors.add(orangeButton);
-		fileButtonsPanelColors.add(cyanButton);
 		fileButtonsPanelColors.add(clearButton);
 		
-
-
 		String[] tools = { "Pencil", "Color Picker", "Filler", "Rectangle", "Oval", "Triangle" };
 		JComboBox comboBox = new JComboBox(tools);
 		drawPanel.add(comboBox);
@@ -304,9 +194,5 @@ public class Fenetre extends JFrame {
 		
 		JButton btnText = new JButton(new ImageIcon("icons/text_icon24.png"));
 		drawPanel.add(btnText);
-		
-		
-		
 	}
-
 }
