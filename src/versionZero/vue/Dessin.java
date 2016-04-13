@@ -13,7 +13,7 @@ class Dessin extends JComponent{
 
 	private static final long serialVersionUID = 1L;
 			Image image;
-			//static //notre image
+			static //static //notre image
 			Graphics2D toile;
 			//l'outil
 			int courantX, courantY, ancienX, ancienY;
@@ -42,11 +42,11 @@ class Dessin extends JComponent{
 					}
 
 				});
-				//quand la souris a bougé une ligne se dessigne en utilisant les cordonees x ,y
+				//quand la souris a bougÃ© une ligne se dessigne en utilisant les cordonees x ,y
 				//est la ligne se fait peindre et les anciens x,y deviennent les nouveau
 			}
 
-			//D�ssin
+			//Déssin
 			public void paintComponent(Graphics g){
 				if(image == null){
 					image = createImage(getSize().width, getSize().height);
@@ -67,7 +67,7 @@ class Dessin extends JComponent{
 			//Change la couleur du pinceau
 			public void changePencilColor(Color couleur){
 				toile.setPaint(couleur);
-				repaint();
+				//repaint();
 			}
 			
 			
