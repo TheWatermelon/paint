@@ -3,11 +3,13 @@ package versionZero.vue;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
-
+import java.awt.Color;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
 
 public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -49,7 +51,7 @@ public class Fenetre extends JFrame {
 		
 		///
 		JPanel topToolboxColors = new JPanel();
-		centeredToolboxColors.add(topToolboxColors, BorderLayout.EAST);
+		centeredToolboxColors.add(topToolboxColors, BorderLayout.NORTH);
 		///
 		
 		/* fileButtonsPanel contient les opï¿½rations sur les fichiers : new, open et save */
@@ -65,10 +67,7 @@ public class Fenetre extends JFrame {
 		topToolboxColors.add(fileButtonsPanelColors);
 		///
 		
-		
-		
-		
-		
+
 		JButton btnNew = new JButton(new ImageIcon("icons/new_file_icon24.png"));
 		btnNew.setOpaque(false);
 		fileButtonsPanel.add(btnNew);
@@ -126,9 +125,9 @@ public class Fenetre extends JFrame {
 		drawPanel.add(colorIndicator);
 		colorIndicator.setBackground(Color.BLACK);	
 	
-		fileButtonsPanelColors.setPreferredSize(new Dimension(70, 170));
-		fileButtonsPanelColors.setMinimumSize(new Dimension(70, 200));
-		fileButtonsPanelColors.setMaximumSize(new Dimension(70, 200));
+		fileButtonsPanelColors.setPreferredSize(new Dimension(70, 230));
+		fileButtonsPanelColors.setMinimumSize(new Dimension(500, 60));
+		fileButtonsPanelColors.setMaximumSize(new Dimension(500, 60));
 		//la taille du panel
 		
 		
@@ -136,30 +135,39 @@ public class Fenetre extends JFrame {
 		 * Ajout des couleurs dans la zone de choix de couleur
 		 */
 		for(Color couleur : choixCouleurs){
-			JButton button = new JButton();
-			button.setBackground(couleur);
-			button.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					drawZonePanel.changePencilColor(couleur);
-					colorIndicator.setBackground(couleur);
-				}
-			});
-			button.setPreferredSize(new Dimension(20, 20));
-			fileButtonsPanelColors.add(button);
+			
+			colorButton(fileButtonsPanelColors, drawZonePanel, colorIndicator, couleur);
 		}
 		
-		JButton clearButton = new JButton("Clear");
-		
 		//Botton clear appel clear
-		clearButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				drawZonePanel.clear();
-				colorIndicator.setBackground(Color.BLACK);
-			}
-		});
+		JButton clearButton = new JButton("Clear");
+		fonctionalButton(fileButtonsPanelColors, drawZonePanel, clearButton);
 		
-		fileButtonsPanelColors.add(clearButton);
+         ///colors chooser
 		
+			JButton chooserButton=new JButton();
+			chooserButton.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent arg0) {
+	                Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
+	                drawZonePanel.changePencilColor(newColor);
+					colorIndicator.setBackground(newColor);
+	               
+	            }
+	        });
+			
+			//colors chooser button
+			chooserButton.setPreferredSize(new Dimension(50,50));
+			fileButtonsPanelColors.add(chooserButton);
+			Icon iconG = new ImageIcon("icons/mix.png");
+	        chooserButton.setIcon(iconG);
+	        
+	        //Color picker
+	        
+	        
+	        
+	        
+			
 		String[] tools = { "Pencil", "Color Picker", "Filler", "Rectangle", "Oval", "Triangle" };
 		JComboBox comboBox = new JComboBox(tools);
 		drawPanel.add(comboBox);
@@ -194,5 +202,29 @@ public class Fenetre extends JFrame {
 		
 		JButton btnText = new JButton(new ImageIcon("icons/text_icon24.png"));
 		drawPanel.add(btnText);
+	}
+
+	private void fonctionalButton(JPanel fileButtonsPanelColors, final Dessin drawZonePanel, JButton clearButton) {
+		clearButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				drawZonePanel.clear();
+			}
+		});
+		
+		fileButtonsPanelColors.add(clearButton);
+	}
+
+	private void colorButton(JPanel fileButtonsPanelColors, final Dessin drawZonePanel, JPanel colorIndicator,
+			Color couleur) {
+		JButton button = new JButton();
+		button.setBackground(couleur);
+		button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				drawZonePanel.changePencilColor(couleur);
+				colorIndicator.setBackground(couleur);
+			}
+		});
+		button.setPreferredSize(new Dimension(20, 20));
+		fileButtonsPanelColors.add(button);
 	}
 }
