@@ -1,5 +1,7 @@
 package versionZero.vue;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -21,7 +23,6 @@ class Dessin extends JComponent{
 
 			//constructeur
 			public Dessin(){
-			
 				addMouseListener(new MouseAdapter(){
 					public void mousePressed(MouseEvent e){
 						ancienX = e.getX();
@@ -40,12 +41,19 @@ class Dessin extends JComponent{
 						ancienX = courantX;
 						ancienY = courantY;
 					}
-
 				});
 				//quand la souris a bougÃ© une ligne se dessigne en utilisant les cordonees x ,y
 				//est la ligne se fait peindre et les anciens x,y deviennent les nouveau
 			}
-
+			
+			public void drawString(String txt){
+				toile.drawString(txt, this.getWidth()/2, this.getHeight()/2);
+				repaint();
+			}
+			public void setFont(Font f){
+				toile.setFont(f);
+			}
+			
 			//Déssin
 			public void paintComponent(Graphics g){
 				if(image == null){
