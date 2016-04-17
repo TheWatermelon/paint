@@ -8,8 +8,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JComponent;
-
-class Dessin extends JComponent{
+import versionZero.modele.*;
+public class Dessin extends JComponent{
 
 	private static final long serialVersionUID = 1L;
 			Image image;
@@ -18,14 +18,17 @@ class Dessin extends JComponent{
 			//l'outil
 			int courantX, courantY, ancienX, ancienY;
 			//cordonees de la souris
+			 SaveStructure  sauvegarde;
+			 
 
 			//constructeur
 			public Dessin(){
-			
+			     sauvegarde=new SaveStructure(getWidth(),getHeight()); 
 				addMouseListener(new MouseAdapter(){
 					public void mousePressed(MouseEvent e){
 						ancienX = e.getX();
 						ancienY = e.getY();
+						sauvegarde.modifierPixel(ancienX, ancienY,toile.getColor() );
 					}
 				});
 				
@@ -39,6 +42,7 @@ class Dessin extends JComponent{
 						repaint();
 						ancienX = courantX;
 						ancienY = courantY;
+						sauvegarde.modifierPixel(ancienX, ancienY,toile.getColor() );
 					}
 
 				});
@@ -69,12 +73,32 @@ class Dessin extends JComponent{
 				toile.setPaint(couleur);
 				//repaint();
 			}
+			public void dessiner(int AncienX,int AncienY,int NouveauX,int NouveauY)
+			{
+				if (toile!=null)
+				{
+			  toile.drawLine(AncienX,AncienY, NouveauX,NouveauY);
+				 sauvegarde.modifierPixel(AncienX, AncienY, toile.getColor());
+				 sauvegarde.modifierPixel(NouveauX, NouveauY, toile.getColor());
+				 
+				}
+				repaint();
+		
+			  
+			
+			}
+			
+			public SaveStructure getSauvegarde()
+			{
+				return this.sauvegarde;
+			}
+		
+			
 			
 			
 		}
 
 	
-
 
 
 
