@@ -38,8 +38,7 @@ public class TextPaint extends JFrame {
 		confirmButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				Font f = fontChooser.getSelectedFont();
-				p.getDessin().setFont(f);
-				p.getDessin().drawString(fontChooser.getText());			
+				p.getModel().addText(fontChooser.getText(),f,p.getDessin());			
 				dispose();
 			}	
 		});

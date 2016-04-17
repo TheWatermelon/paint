@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +23,8 @@ public class Fenetre extends JFrame {
 	private Dessin drawZone;
 	private Color[] choixCouleurs = {Color.black, Color.white, Color.blue, Color.yellow, Color.magenta, Color.red,
 		Color.green, Color.orange, Color.gray, Color.cyan};
+	
+	private DessinModel model;
 	
 	public Fenetre(String name) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,9 +116,12 @@ public class Fenetre extends JFrame {
 		
 		JButton btnPaste = new JButton(new ImageIcon("icons/paste_icon24.png"));
 		selectionPanel.add(btnPaste);
-
-		drawZone = new Dessin();
+		model = new DessinModel();
+		drawZone = new Dessin(this);
 		drawZone.setBackground(Color.WHITE);
+		
+		
+		model.addObserver(drawZone);
 
 		getContentPane().add(drawZone, BorderLayout.CENTER);
 
@@ -217,7 +223,22 @@ public class Fenetre extends JFrame {
 			}
 		});
 		drawPanel.add(btnText);
-
+		
+		JButton btnMove = new JButton("Move Text=off");
+		drawPanel.add(btnMove);
+		btnMove.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(model.getMode()==DessinModel.MOVE_MODE){
+					model.setMode(DessinModel.PAINT_MODE);
+					btnMove.setText("Move Text=off");
+				}
+				else{
+					model.setMode(DessinModel.MOVE_MODE);
+					btnMove.setText("Move Text=on");
+				}
+			}
+		});
 	}
 
 	public Dessin getDessin() {
@@ -250,6 +271,10 @@ public class Fenetre extends JFrame {
 
 	private Fenetre getWindow(){
 		return this;
+	}
+	
+	public DessinModel getModel(){
+		return model;
 	}
 
 }
