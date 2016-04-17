@@ -1,18 +1,29 @@
 package versionZero.modele;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 public class SaveStructure {
 	private boolean[][] bitmap;
 	private Color[][] couleurs;
 	
-	public SaveStructure(int x,int y)
+	private BufferedImage image;
+	
+	public SaveStructure(Image i)
 	{
-		bitmap=new boolean[x][y];
-		couleurs=new Color[x][y];
-		initialiserStructure();
+		// Conversion Image -> BufferedImage pour faciliter la sauvegarde
+		image=new BufferedImage( i.getWidth(null),i.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+		Graphics2D pinceau=image.createGraphics();
+		pinceau.drawImage(i, 0,0,null);
+		pinceau.dispose();
+		// Initialisation des tableaux de sauvegarde
+		bitmap=new boolean[image.getWidth()][image.getHeight()];
+		couleurs=new Color[image.getWidth()][image.getHeight()];
+		this.initialiserStructure();
 	}
-   
+
 	private void initialiserStructure()
 	{
 		for(int i=0;i<bitmap.length;i++)
@@ -25,11 +36,38 @@ public class SaveStructure {
 		}	
 	}
 	
+	public void doSauvegarde(Image i)
+	{
+		// Mise a jour de l'image
+		image=new BufferedImage( i.getWidth(null),i.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+		Graphics2D pinceau=image.createGraphics();
+		pinceau.drawImage(i, 0,0,null);
+		pinceau.dispose();
+		
+		int pixel, bleu, vert, rouge;
+		for(int j=0;j<image.getWidth();j++)
+		{
+			for (int k=0;k<image.getHeight();k++)
+			{
+				// Recuperation du pixel
+				pixel=image.getRGB(j,k);
+				// Extraction des couleurs du pixel
+				bleu = pixel & 0xFF;
+				vert = (pixel>>8) & 0xFF;
+				rouge = (pixel>>16) & 0xFF;
+				// Sauvegarde
+				if(!(bleu==255 && vert ==255 && rouge == 255))
+				{
+					bitmap[j][k]=true;
+					couleurs[j][k]=new Color(rouge,vert,bleu);
+				} 
+			}
+		}
+	}
 	
 	public boolean getCellule(int x,int y)
 	{
 		return bitmap[x][y];
-		
 	}
 	
 	public Color getColor(int x, int y)

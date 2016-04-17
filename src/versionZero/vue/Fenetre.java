@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
+import versionZero.controleur.SaveListener;
+
 public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Color[] choixCouleurs = {Color.black, Color.white, Color.blue, Color.yellow, Color.magenta, Color.red,
@@ -67,7 +69,14 @@ public class Fenetre extends JFrame {
 		topToolboxColors.add(fileButtonsPanelColors);
 		///
 		
-
+		
+		final Dessin drawZonePanel = new Dessin();
+		drawZonePanel.setBackground(Color.WHITE);
+		getContentPane().add(drawZonePanel, BorderLayout.CENTER);
+		
+		
+		
+		
 		JButton btnNew = new JButton(new ImageIcon("icons/new_file_icon24.png"));
 		btnNew.setOpaque(false);
 		fileButtonsPanel.add(btnNew);
@@ -76,6 +85,7 @@ public class Fenetre extends JFrame {
 		fileButtonsPanel.add(btnOpen);
 		
 		JButton btnSave = new JButton(new ImageIcon("icons/save_file_icon24.png"));
+		btnSave.addActionListener(new SaveListener(drawZonePanel));
 		fileButtonsPanel.add(btnSave);
 		
 		/* historyPanel contient les modifications d'historique : undo et redo */
@@ -106,10 +116,7 @@ public class Fenetre extends JFrame {
 		
 		JButton btnPaste = new JButton(new ImageIcon("icons/paste_icon24.png"));
 		selectionPanel.add(btnPaste);
-		
-		final Dessin drawZonePanel = new Dessin();
-		drawZonePanel.setBackground(Color.WHITE);
-		getContentPane().add(drawZonePanel, BorderLayout.CENTER);
+
 
 		/* drawPanel contient les opï¿½rations de dessin : dessin, taille du trait, gomme, ligne, forme, texte, couleur */
 		JPanel borderDrawPanel = new JPanel();
@@ -118,7 +125,7 @@ public class Fenetre extends JFrame {
 		drawPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		centeredToolbox.add(borderDrawPanel, BorderLayout.SOUTH);
 		
-		JPanel colorIndicator = new JPanel();
+		final JPanel colorIndicator = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) colorIndicator.getLayout();
 		flowLayout.setVgap(10);
 		flowLayout.setHgap(10);
@@ -214,8 +221,8 @@ public class Fenetre extends JFrame {
 		fileButtonsPanelColors.add(clearButton);
 	}
 
-	private void colorButton(JPanel fileButtonsPanelColors, final Dessin drawZonePanel, JPanel colorIndicator,
-			Color couleur) {
+	private void colorButton(JPanel fileButtonsPanelColors, final Dessin drawZonePanel, final JPanel colorIndicator,
+			final Color couleur) {
 		JButton button = new JButton();
 		button.setBackground(couleur);
 		button.addActionListener(new ActionListener(){
