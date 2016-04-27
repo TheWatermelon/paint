@@ -13,7 +13,7 @@ public class DessinModel extends Observable{
 	
 	private final int BASIC_ERASE_SIZE= 5;
 	private final int MIN_SIZE = 1;
-	private final int MAX_SIZE = 10;
+	private final int MAX_SIZE = 25;
 	
 	private BasicStroke size;
 	
