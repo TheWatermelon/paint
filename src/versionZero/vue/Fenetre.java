@@ -1,14 +1,13 @@
 package versionZero.vue;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EtchedBorder;
 
+import versionZero.model.DessinModel;
+
+
 public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Dessin drawZone;
@@ -26,6 +28,7 @@ public class Fenetre extends JFrame {
 		Color.green, Color.orange, Color.gray, Color.cyan};
 	
 	private DessinModel model;
+	private MouseAdapter mouseListener;
 	
 	public Fenetre(String name) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -192,52 +195,45 @@ public class Fenetre extends JFrame {
 		drawPanel.add(sizePencilPanel);
 		sizePencilPanel.setLayout(new BorderLayout(0, 0));
 		
+		JButton buttonMinus = new JButton("-");
+		sizePencilPanel.add(buttonMinus, BorderLayout.WEST);
+		
 		JTextPane lineSize = new JTextPane();
 		lineSize.setEditable(false);
 		sizePencilPanel.add(lineSize, BorderLayout.CENTER);
-		lineSize.setText(Integer.toString((int) model.getBasicStroke().getLineWidth()));
-		
-		JButton buttonMinus = new JButton("-");
-		buttonMinus.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent arg0) {
-	            	if(model.getBasicStroke().getLineWidth() > 1)
-	            	{
-	            		model.minusSize();
-	            		lineSize.setText(Integer.toString((int) model.getBasicStroke().getLineWidth()));
-	            	}
-	            }
-	    });
-		sizePencilPanel.add(buttonMinus, BorderLayout.WEST);
+		lineSize.setText("1");
 		
 		JButton buttonPlus = new JButton("+");
-		buttonPlus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-            	model.plusSize();
-        		lineSize.setText(Integer.toString((int) model.getBasicStroke().getLineWidth()));
-            }
-		});
 		sizePencilPanel.add(buttonPlus, BorderLayout.EAST);
 		
 		JButton btnEraser = new JButton(new ImageIcon("icons/eraser_icon24.png"));
-		btnEraser.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				drawZone.changePencilColor(Color.WHITE);
-				model.setEraseSize();
-				lineSize.setText(Integer.toString((int) model.getBasicStroke().getLineWidth()));
-			}
-		});
 		drawPanel.add(btnEraser);
 		
 		JButton btnLine = new JButton(new ImageIcon("icons/line_icon24.png"));
 		drawPanel.add(btnLine);
+		btnLine.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if(model.getMode()==DessinModel.VECTOR_MODE){
+					
+					model.setMode(DessinModel.PAINT_MODE);
+					
+				}else{
+				
+				model.setMode(DessinModel.VECTOR_MODE);
+				}
+				
+				
+				
+			}
+		});
 		
 		JButton btnShape = new JButton(new ImageIcon("icons/shape_icon24.png"));
 		drawPanel.add(btnShape);
 		
 		JButton btnVector = new JButton(new ImageIcon("icons/vector_icon24.png"));
+		
 		drawPanel.add(btnVector);
 		
 		JButton btnText = new JButton(new ImageIcon("icons/text_icon24.png"));

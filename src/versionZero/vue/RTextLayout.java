@@ -2,12 +2,14 @@ package versionZero.vue;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.font.TextLayout;
 
-public class RTextLayout{
-	private TextLayout text;
+import versionZero.model.DessinModel;
 
+public class RTextLayout{
+	
+	
+	private TextLayout text;
 	private float posX,posY;
 	
 	public RTextLayout(DessinModel m,TextLayout t,float x, float y){
