@@ -49,9 +49,9 @@ class Dessin extends JComponent implements Observer {
 				courantY = e.getY();
 				if (fenetre.getModel().getMode() == DessinModel.PAINT_MODE) {
 
-					if (toile != null)
-						toile.drawLine(ancienX, ancienY, courantX, courantY);
-
+					if (toile != null){
+						toile.drawLine(courantX, courantY, ancienX, ancienY);
+					}
 				} else {
 					if (focused == null) {
 						for (int i = fenetre.getModel().getList().size() - 1; i >= 0; i--) {
@@ -107,6 +107,7 @@ class Dessin extends JComponent implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		toile.setStroke(fenetre.getModel().getBasicStroke());
 		repaint();
 	}
 
