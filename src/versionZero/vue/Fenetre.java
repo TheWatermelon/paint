@@ -136,7 +136,7 @@ public class Fenetre extends JFrame {
 		drawPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		centeredToolbox.add(borderDrawPanel, BorderLayout.SOUTH);
 		
-		JPanel colorIndicator = new JPanel();
+		final JPanel colorIndicator = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) colorIndicator.getLayout();
 		flowLayout.setVgap(10);
 		flowLayout.setHgap(10);
@@ -246,7 +246,7 @@ public class Fenetre extends JFrame {
 		});
 		drawPanel.add(btnText);
 		
-		JButton btnMove = new JButton("Move Text=off");
+		final JButton btnMove = new JButton("Move Text=off");
 		drawPanel.add(btnMove);
 		btnMove.addActionListener(new ActionListener(){
 			@Override
@@ -277,8 +277,8 @@ public class Fenetre extends JFrame {
 		fileButtonsPanelColors.add(clearButton);
 	}
 
-	private void colorButton(JPanel fileButtonsPanelColors, final Dessin drawZonePanel, JPanel colorIndicator,
-			Color couleur) {
+	private void colorButton(JPanel fileButtonsPanelColors, final Dessin drawZonePanel, final JPanel colorIndicator,
+			final Color couleur) {
 		JButton button = new JButton();
 		button.setBackground(couleur);
 		button.addActionListener(new ActionListener(){
