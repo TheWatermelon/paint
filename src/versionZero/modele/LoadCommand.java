@@ -3,8 +3,7 @@ package versionZero.modele;
 import java.io.File;
 
 import javax.swing.JFileChooser;
-
-import versionZero.vue.Dessin;
+import versionZero.vue.*;
 
 public class LoadCommand extends Command {
 	private SaveStructure sauvegarde;

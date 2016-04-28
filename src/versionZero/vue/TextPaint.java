@@ -19,8 +19,8 @@ public class TextPaint extends JFrame {
 	private JButton cancelButton;
 	private JButton confirmButton;
 	
-	public TextPaint(Fenetre p){
-		JFontChooser fontChooser = new JFontChooser();	
+	public TextPaint(final Fenetre p){
+		final JFontChooser fontChooser = new JFontChooser();	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(700,500);
 		setLocation((p.getLocation().x + p.getWidth()) / 2 - (getWidth()/2), (p.getLocation().y + p.getHeight()) / 2 - (getHeight()/2));
