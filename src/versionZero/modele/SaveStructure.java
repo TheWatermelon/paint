@@ -33,17 +33,17 @@ public class SaveStructure {
 	
 	public void doSauvegarde(Image i,File f)
 	{
-		System.out.println("////////////////SAVE/////////////////");
+		//System.out.println("////////////////SAVE/////////////////");
 		doSauvegarde(i);
 		doWrite(f);
-		System.out.println("/////////////////////////////////////");
+		//System.out.println("/////////////////////////////////////");
 	}
 	
 	public Image loadSauvegarde(File f) {
-		System.out.println("////////////////LOAD/////////////////");
+		//System.out.println("////////////////LOAD/////////////////");
 		doRead(f);
 		genererImage();
-		System.out.println("/////////////////////////////////////");
+		//System.out.println("/////////////////////////////////////");
 		return (Image) image;
 	}
 

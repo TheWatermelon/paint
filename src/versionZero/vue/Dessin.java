@@ -98,6 +98,16 @@ public class Dessin extends JComponent implements Observer {
 		toile.setPaint(couleur);
 		// repaint();
 	}
+	
+	public Image getImage() {
+		return image;
+	}
+	
+	public void setImage(Image i) {
+		image = i;
+		toile = (Graphics2D) image.getGraphics();
+		toile.setColor(Color.black);
+	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {

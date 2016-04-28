@@ -191,7 +191,7 @@ public class Fenetre extends JFrame {
 		drawPanel.add(sizePencilPanel);
 		sizePencilPanel.setLayout(new BorderLayout(0, 0));
 		
-		JTextPane lineSize = new JTextPane();
+		final JTextPane lineSize = new JTextPane();
 		lineSize.setEditable(false);
 		sizePencilPanel.add(lineSize, BorderLayout.CENTER);
 		lineSize.setText(Integer.toString((int) model.getBasicStroke().getLineWidth()));
