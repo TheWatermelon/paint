@@ -1,15 +1,22 @@
 package versionZero.vue;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
+import javax.swing.border.EtchedBorder;
 
 import versionZero.controleur.ActionButton;
 import versionZero.modele.LoadCommand;
@@ -18,8 +25,11 @@ import versionZero.modele.SaveCommand;
 
 public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private Dessin drawZone;
 	private Color[] choixCouleurs = {Color.black, Color.white, Color.blue, Color.yellow, Color.magenta, Color.red,
 		Color.green, Color.orange, Color.gray, Color.cyan};
+	
+	private DessinModel model;
 	
 	public Fenetre(String name) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,12 +84,14 @@ public class Fenetre extends JFrame {
 		
 		// Declaration de la zone de dessin ici car les bouton new/open/save en ont besoin
 		///
-		final Dessin drawZonePanel = new Dessin();
-		drawZonePanel.setBackground(Color.white);
-		getContentPane().add(drawZonePanel, BorderLayout.CENTER);
+		model = new DessinModel();
+		drawZone = new Dessin(this);
+		drawZone.setBackground(Color.WHITE);
+		model.addObserver(drawZone);
+		getContentPane().add(drawZone, BorderLayout.CENTER);
 		///
 		
-		final ActionButton btnNew = new ActionButton(new ImageIcon("icons/new_file_icon24.png"));
+		ActionButton btnNew = new ActionButton(new ImageIcon("icons/new_file_icon24.png"));
 		btnNew.storeCommand(new NewCommand(drawZonePanel));
 		fileButtonsPanel.add(btnNew);
 		
@@ -145,10 +157,10 @@ public class Fenetre extends JFrame {
 		 * Ajout des couleurs dans la zone de choix de couleur
 		 */
 		for(Color couleur : choixCouleurs){
-			colorButton(fileButtonsPanelColors, drawZonePanel, colorIndicator, couleur);
+			colorButton(fileButtonsPanelColors, drawZone, colorIndicator, couleur);
 		}
 		
-        ///colors chooser
+		///colors chooser
 		JButton chooserButton=new JButton("...");
 		chooserButton.addActionListener(new ActionListener() {
 			@Override
@@ -168,7 +180,28 @@ public class Fenetre extends JFrame {
 		
 		//Botton clear appel clear
 		JButton clearButton = new JButton("Clear");
-		fonctionalButton(fileButtonsPanelColors, drawZonePanel, clearButton);
+		fonctionalButton(fileButtonsPanelColors, drawZone, clearButton);
+		
+		///colors chooser
+		
+		JButton chooserButton=new JButton();
+		chooserButton.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent arg0) {
+	                Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
+	                drawZone.changePencilColor(newColor);
+			colorIndicator.setBackground(newColor);
+	               
+	            }
+	        });
+			
+		//colors chooser button
+		chooserButton.setPreferredSize(new Dimension(50,50));
+		fileButtonsPanelColors.add(chooserButton);
+		Icon iconG = new ImageIcon("icons/mix.png");
+	        chooserButton.setIcon(iconG);
+	        
+	        //Color picker
 	        
 	        
 	        
@@ -207,7 +240,34 @@ public class Fenetre extends JFrame {
 		drawPanel.add(btnVector);
 		
 		JButton btnText = new JButton(new ImageIcon("icons/text_icon24.png"));
+		btnText.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				TextPaint textPaint = new TextPaint(getWindow());
+				textPaint.setVisible(true);
+			}
+		});
 		drawPanel.add(btnText);
+		
+		JButton btnMove = new JButton("Move Text=off");
+		drawPanel.add(btnMove);
+		btnMove.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(model.getMode()==DessinModel.MOVE_MODE){
+					model.setMode(DessinModel.PAINT_MODE);
+					btnMove.setText("Move Text=off");
+				}
+				else{
+					model.setMode(DessinModel.MOVE_MODE);
+					btnMove.setText("Move Text=on");
+				}
+			}
+		});
+	}
+
+	public Dessin getDessin() {
+		return drawZone;
 	}
 
 	private void fonctionalButton(JPanel fileButtonsPanelColors, final Dessin drawZonePanel, JButton clearButton) {
@@ -233,4 +293,13 @@ public class Fenetre extends JFrame {
 		button.setPreferredSize(new Dimension(20, 20));
 		fileButtonsPanelColors.add(button);
 	}
+
+	private Fenetre getWindow(){
+		return this;
+	}
+	
+	public DessinModel getModel(){
+		return model;
+	}
+
 }
