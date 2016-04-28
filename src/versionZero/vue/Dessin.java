@@ -1,24 +1,18 @@
 package versionZero.vue;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
-import java.awt.font.TextLayout;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JComponent;
 
-class Dessin extends JComponent implements Observer {
+public class Dessin extends JComponent implements Observer {
 	private static final long serialVersionUID = 1L;
 	Image image;
 	static // static //notre image

@@ -8,7 +8,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -93,15 +92,15 @@ public class Fenetre extends JFrame {
 		///
 		
 		ActionButton btnNew = new ActionButton(new ImageIcon("icons/new_file_icon24.png"));
-		btnNew.storeCommand(new NewCommand(drawZonePanel));
+		btnNew.storeCommand(new NewCommand(drawZone));
 		fileButtonsPanel.add(btnNew);
 		
 		ActionButton btnOpen = new ActionButton(new ImageIcon("icons/open_file_icon24.png"));
-		btnOpen.storeCommand(new LoadCommand(drawZonePanel));
+		btnOpen.storeCommand(new LoadCommand(drawZone));
 		fileButtonsPanel.add(btnOpen);
 		
 		ActionButton btnSave = new ActionButton(new ImageIcon("icons/save_file_icon24.png"));
-		btnSave.storeCommand(new SaveCommand(drawZonePanel));
+		btnSave.storeCommand(new SaveCommand(drawZone));
 		fileButtonsPanel.add(btnSave);
 		
 		/* historyPanel contient les modifications d'historique : undo et redo */
@@ -167,7 +166,7 @@ public class Fenetre extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
-				drawZonePanel.changePencilColor(newColor);
+				drawZone.changePencilColor(newColor);
 				colorIndicator.setBackground(newColor);
 			   
 			}
@@ -182,34 +181,9 @@ public class Fenetre extends JFrame {
 		//Botton clear appel clear
 		JButton clearButton = new JButton("Clear");
 		fonctionalButton(fileButtonsPanelColors, drawZone, clearButton);
-		
-		///colors chooser
-		
-		JButton chooserButton=new JButton();
-		chooserButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent arg0) {
-	                Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
-	                drawZone.changePencilColor(newColor);
-			colorIndicator.setBackground(newColor);
-	               
-	            }
-	        });
-			
-		//colors chooser button
-		chooserButton.setPreferredSize(new Dimension(50,50));
-		fileButtonsPanelColors.add(chooserButton);
-		Icon iconG = new ImageIcon("icons/mix.png");
-	        chooserButton.setIcon(iconG);
-	        
-	        //Color picker
-	        
-	        
-	        
-	        
 			
 		String[] tools = { "Pencil", "Color Picker", "Filler", "Rectangle", "Oval", "Triangle" };
-		JComboBox comboBox = new JComboBox(tools);
+		JComboBox<String> comboBox = new JComboBox<String>(tools);
 		drawPanel.add(comboBox);
 
 		
@@ -275,7 +249,7 @@ public class Fenetre extends JFrame {
 		});
 		drawPanel.add(btnText);
 		
-		JButton btnMove = new JButton("Move Text=off");
+		final JButton btnMove = new JButton("Move Text=off");
 		drawPanel.add(btnMove);
 		btnMove.addActionListener(new ActionListener(){
 			@Override
