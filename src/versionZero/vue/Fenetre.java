@@ -11,7 +11,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
+import versionZero.controleur.ActionButton;
 import versionZero.controleur.SaveListener;
+import versionZero.modele.LoadCommand;
+import versionZero.modele.NewCommand;
+import versionZero.modele.SaveCommand;
 
 public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -69,23 +73,23 @@ public class Fenetre extends JFrame {
 		topToolboxColors.add(fileButtonsPanelColors);
 		///
 		
-		
+		// Declaration de la zone de dessin ici car les bouton new/open/save en ont besoin
+		///
 		final Dessin drawZonePanel = new Dessin();
-		drawZonePanel.setBackground(Color.WHITE);
+		drawZonePanel.setBackground(Color.white);
 		getContentPane().add(drawZonePanel, BorderLayout.CENTER);
+		///
 		
-		
-		
-		
-		JButton btnNew = new JButton(new ImageIcon("icons/new_file_icon24.png"));
-		btnNew.setOpaque(false);
+		final ActionButton btnNew = new ActionButton(new ImageIcon("icons/new_file_icon24.png"));
+		btnNew.storeCommand(new NewCommand(drawZonePanel));
 		fileButtonsPanel.add(btnNew);
 		
-		JButton btnOpen = new JButton(new ImageIcon("icons/open_file_icon24.png"));
+		ActionButton btnOpen = new ActionButton(new ImageIcon("icons/open_file_icon24.png"));
+		btnOpen.storeCommand(new LoadCommand(drawZonePanel));
 		fileButtonsPanel.add(btnOpen);
 		
-		JButton btnSave = new JButton(new ImageIcon("icons/save_file_icon24.png"));
-		btnSave.addActionListener(new SaveListener(drawZonePanel));
+		ActionButton btnSave = new ActionButton(new ImageIcon("icons/save_file_icon24.png"));
+		btnSave.storeCommand(new SaveCommand(drawZonePanel));
 		fileButtonsPanel.add(btnSave);
 		
 		/* historyPanel contient les modifications d'historique : undo et redo */
@@ -99,7 +103,7 @@ public class Fenetre extends JFrame {
 		JButton btnRedo = new JButton(new ImageIcon("icons/redo_icon24.png"));
 		historyPanel.add(btnRedo);
 		
-		/* selectionPanel contient les opï¿½rations sur les dessins : sï¿½lection, couper, copier, coller */
+		/* selectionPanel contient les operations sur les dessins : selection, couper, copier, coller */
 		JPanel selectionPanel = new JPanel();
 		selectionPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		topToolbox.add(selectionPanel);
@@ -142,34 +146,30 @@ public class Fenetre extends JFrame {
 		 * Ajout des couleurs dans la zone de choix de couleur
 		 */
 		for(Color couleur : choixCouleurs){
-			
 			colorButton(fileButtonsPanelColors, drawZonePanel, colorIndicator, couleur);
 		}
+		
+        ///colors chooser
+		JButton chooserButton=new JButton("...");
+		chooserButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
+				drawZonePanel.changePencilColor(newColor);
+				colorIndicator.setBackground(newColor);
+			   
+			}
+		});
+			
+		//colors chooser button
+		chooserButton.setPreferredSize(new Dimension(50,50));
+		fileButtonsPanelColors.add(chooserButton);
+		Icon iconG = new ImageIcon("icons/mix.png");
+		chooserButton.setIcon(iconG);
 		
 		//Botton clear appel clear
 		JButton clearButton = new JButton("Clear");
 		fonctionalButton(fileButtonsPanelColors, drawZonePanel, clearButton);
-		
-         ///colors chooser
-		
-			JButton chooserButton=new JButton();
-			chooserButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent arg0) {
-	                Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
-	                drawZonePanel.changePencilColor(newColor);
-					colorIndicator.setBackground(newColor);
-	               
-	            }
-	        });
-			
-			//colors chooser button
-			chooserButton.setPreferredSize(new Dimension(50,50));
-			fileButtonsPanelColors.add(chooserButton);
-			Icon iconG = new ImageIcon("icons/mix.png");
-	        chooserButton.setIcon(iconG);
-	        
-	        //Color picker
 	        
 	        
 	        

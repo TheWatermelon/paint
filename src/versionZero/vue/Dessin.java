@@ -79,6 +79,12 @@ public class Dessin extends JComponent{
 			 {
 				 return image;
 			 }
+			 
+			 public void setImage(Image i) {
+				 image = i;
+				 toile = (Graphics2D) image.getGraphics();
+				 toile.setColor(Color.black);
+			 }
 			
 		}
 

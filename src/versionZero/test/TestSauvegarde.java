@@ -20,8 +20,8 @@ public class TestSauvegarde {
 	public void setup()
 	{
 		a =new Dessin();
-		sauvegarde1=new SaveStructure(a.getImage());
-		sauvegarde2=new SaveStructure(a.getImage());
+		sauvegarde1=new SaveStructure();
+		sauvegarde2=new SaveStructure();
 		
 		System.out.println("la largeur "+a.getSize().width+"  la longueur "+a.getSize().height);
 	}
