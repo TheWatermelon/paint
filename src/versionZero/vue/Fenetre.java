@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
 import versionZero.controleur.ActionButton;
-import versionZero.controleur.SaveListener;
 import versionZero.modele.LoadCommand;
 import versionZero.modele.NewCommand;
 import versionZero.modele.SaveCommand;
