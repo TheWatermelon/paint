@@ -18,7 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EtchedBorder;
 
+
 import versionZero.controleur.ActionButton;
+import versionZero.modele.CommandFactory;
 import versionZero.modele.LoadCommand;
 import versionZero.modele.NewCommand;
 import versionZero.modele.SaveCommand;
@@ -88,19 +90,20 @@ public class Fenetre extends JFrame {
 		drawZone = new Dessin(this);
 		drawZone.setBackground(Color.WHITE);
 		model.addObserver(drawZone);
+		CommandFactory.setDessin(drawZone);
+		
 		getContentPane().add(drawZone, BorderLayout.CENTER);
 		///
 		
 		ActionButton btnNew = new ActionButton(new ImageIcon("icons/new_file_icon24.png"));
-		btnNew.storeCommand(new NewCommand(drawZone));
+		btnNew.storeCommand(CommandFactory.createNewCommand());
 		fileButtonsPanel.add(btnNew);
 		
 		ActionButton btnOpen = new ActionButton(new ImageIcon("icons/open_file_icon24.png"));
-		btnOpen.storeCommand(new LoadCommand(drawZone));
+		btnOpen.storeCommand(CommandFactory.createLoadCommand());
 		fileButtonsPanel.add(btnOpen);
-		
 		ActionButton btnSave = new ActionButton(new ImageIcon("icons/save_file_icon24.png"));
-		btnSave.storeCommand(new SaveCommand(drawZone));
+		btnSave.storeCommand(CommandFactory.createSaveCommand());
 		fileButtonsPanel.add(btnSave);
 		
 		/* historyPanel contient les modifications d'historique : undo et redo */
