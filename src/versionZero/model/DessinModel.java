@@ -15,13 +15,13 @@ public class DessinModel extends Observable{
 	public static final int VECTOR_MODE = 2;
 	
 	private ArrayList<RTextLayout> textList;
-	private ArrayList<Figure> figList;
+	private figureComposite figList;
 	
 	private int mode = 0;
 	
 	public DessinModel(){
 		textList = new ArrayList<RTextLayout>();
-		figList = new ArrayList<Figure>();
+		figList = new figureComposite();
 	}
 	
 	public void add(RTextLayout t){
@@ -42,11 +42,11 @@ public class DessinModel extends Observable{
 		return textList;
 	}
 	
-	public ArrayList<Figure> getListFigure(){
+	public figureComposite getListFigure(){
 		return figList;
 	}
 	
-	public void setListFigure(ArrayList<Figure> figure){
+	public void setListFigure(figureComposite figure){
 		
 		figList = figure;
 		this.setChanged();
@@ -66,13 +66,13 @@ public class DessinModel extends Observable{
 	
 	public Figure getFigure(int index){
 		
-		return figList.get(index);
+		return figList.getChild(index);
 		
 	}
 
 	public void clear(){
 		textList.clear();
-		figList.clear();
+		figList.removeAll();
 		this.setChanged();
 		this.notifyObservers();
 	}

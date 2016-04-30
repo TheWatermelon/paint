@@ -92,7 +92,7 @@ public class Dessin extends JComponent implements Observer {
 				} else if(fenetre.getModel().getMode() == DessinModel.VECTOR_MODE){
 					
 					
-					Figure mafigure = fenetre.getModel().getFigure(fenetre.getModel().getListFigure().size()-1);
+					Figure mafigure = fenetre.getModel().getFigure(fenetre.getModel().getListFigure().getList().size()-1);
 					
 					
 					mafigure.setX2(courantX);
@@ -101,7 +101,7 @@ public class Dessin extends JComponent implements Observer {
 					
 					
 					
-					fenetre.getModel().setFigure(fenetre.getModel().getListFigure().size()-1,mafigure);
+					fenetre.getModel().setFigure(fenetre.getModel().getListFigure().getList().size()-1,mafigure);
 					
 				}
 				
@@ -133,7 +133,7 @@ public class Dessin extends JComponent implements Observer {
 		}
 		
 		
-		for (Figure fig : fenetre.getModel().getListFigure()) {
+		for (Figure fig : fenetre.getModel().getListFigure().getList()) {
 			
 			fig.draw(g);
 			
